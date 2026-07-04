@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kafando Thomas — Robot Mechanical Modeling &amp; Simulation Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #14171b;
+    --panel: #1b1f25;
+    --panel-2: #21262e;
+    --line: #2c333d;
+    --text: #e9e7e0;
+    --text-dim: #9aa1ab;
+    --accent: #ff6a32;
+    --accent-dim: #c24f23;
+    --blue: #6f93b3;
+    --mono: 'JetBrains Mono', monospace;
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'Inter', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:
+      radial-gradient(ellipse 900px 600px at 85% -10%, rgba(255,106,50,0.10), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 5% 15%, rgba(111,147,179,0.08), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--body);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+    .reveal{opacity:1 !important; transform:none !important;}
+  }
+
+  a{color:inherit;}
+  .wrap{max-width:1040px; margin:0 auto; padding:0 28px;}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(20,23,27,0.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    transition:box-shadow .3s, border-color .3s;
+  }
+  nav.scrolled{ box-shadow:0 8px 24px -8px rgba(0,0,0,0.4); border-bottom-color:rgba(255,106,50,0.18); }
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:64px;}
+  .brand{font-family:var(--mono); font-size:13px; letter-spacing:0.04em; color:var(--text-dim);}
+  .brand b{color:var(--text); font-weight:500;}
+  .navlinks{display:flex; gap:28px; align-items:center;}
+  .navlinks a{font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-dim); text-decoration:none; transition:color .2s;}
+  .navlinks a:hover{color:var(--accent);}
+  .lang-toggle{
+    display:flex; border:1px solid var(--line); border-radius:4px; overflow:hidden; font-family:var(--mono); font-size:12px;
+  }
+  .lang-toggle button{
+    background:transparent; color:var(--text-dim); border:none; padding:7px 12px; cursor:pointer; font-family:var(--mono); font-size:12px; letter-spacing:0.05em; transition:.2s;
+  }
+  .lang-toggle button.active{background:var(--accent); color:#14171b; font-weight:600;}
+  @media (max-width: 720px){ .navlinks a{display:none;} }
+
+  /* ---------- HERO ---------- */
+  header.hero{padding:104px 0 80px; position:relative;}
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; color:var(--accent); letter-spacing:0.12em; text-transform:uppercase;
+    display:flex; align-items:center; gap:10px; margin-bottom:22px;
+    opacity:0; animation:rise .7s ease forwards;
+  }
+  .eyebrow::before{content:""; width:22px; height:1px; background:var(--accent);}
+  h1{
+    font-family:var(--display); font-weight:700; font-size:clamp(2.6rem, 6.4vw, 4.6rem); line-height:1.02; letter-spacing:-0.015em;
+    opacity:0; animation:rise .7s ease .08s forwards;
+  }
+  h1 .last{
+    background:linear-gradient(95deg, var(--accent), #ffab7a 60%, var(--accent));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .role{
+    font-family:var(--display); font-size:clamp(1.1rem, 2.4vw, 1.5rem); color:var(--blue); margin-top:16px; font-weight:500;
+    opacity:0; animation:rise .7s ease .16s forwards;
+  }
+  .bio{max-width:620px; color:var(--text-dim); font-size:1.04rem; margin-top:26px; opacity:0; animation:rise .7s ease .24s forwards;}
+  .hero-foot{display:flex; gap:14px; margin-top:36px; flex-wrap:wrap; opacity:0; animation:rise .7s ease .32s forwards;}
+  @keyframes rise{ from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);} }
+  .btn{
+    font-family:var(--mono); font-size:12.5px; letter-spacing:0.04em; text-decoration:none;
+    padding:12px 22px; border-radius:4px; display:inline-flex; align-items:center; gap:8px; transition:.25s;
+  }
+  .btn-primary{background:var(--accent); color:#14171b; font-weight:600; box-shadow:0 6px 20px -6px rgba(255,106,50,0.45);}
+  .btn-primary:hover{background:#ff7e4d; transform:translateY(-1px); box-shadow:0 10px 26px -6px rgba(255,106,50,0.55);}
+  .btn-ghost{border:1px solid var(--line); color:var(--text);}
+  .btn-ghost:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-1px);}
+
+  /* schematic decoration */
+  .schematic{position:absolute; right:-40px; top:60px; opacity:0.5; pointer-events:none;}
+  @media (max-width:880px){ .schematic{display:none;} }
+
+  /* ---------- SECTION SHARED ---------- */
+  section{padding:68px 0; border-top:1px solid var(--line);}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin-bottom:40px;}
+  .sec-num{font-family:var(--mono); font-size:12px; color:var(--accent);}
+  .sec-title{font-family:var(--display); font-size:1.8rem; font-weight:600; letter-spacing:-0.01em;}
+  .sec-line{flex:1; height:1px; background:linear-gradient(90deg, var(--line), transparent);}
+
+  .reveal{opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{display:grid; grid-template-columns: 1.3fr 1fr; gap:48px;}
+  @media (max-width:760px){ .about-grid{grid-template-columns:1fr;} }
+  .about-text p{color:var(--text-dim); margin-bottom:14px;}
+  .specs{font-family:var(--mono); font-size:13px; border:1px solid var(--line); border-radius:6px; overflow:hidden;}
+  .specs .row{display:flex; justify-content:space-between; padding:11px 16px; border-bottom:1px solid var(--line);}
+  .specs .row:last-child{border-bottom:none;}
+  .specs .row span:first-child{color:var(--text-dim);}
+  .specs .row span:last-child{color:var(--text); text-align:right;}
+
+  /* ---------- SKILLS ---------- */
+  .skill-groups{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  @media (max-width:760px){ .skill-groups{grid-template-columns:1fr;} }
+  .skill-card{
+    background:linear-gradient(160deg, var(--panel), var(--panel-2));
+    border:1px solid var(--line); border-radius:10px; padding:24px;
+    transition:transform .25s, border-color .25s, box-shadow .25s;
+  }
+  .skill-card:hover{ transform:translateY(-3px); border-color:rgba(255,106,50,0.35); box-shadow:0 14px 32px -16px rgba(0,0,0,0.5); }
+  .skill-card h3{font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:var(--blue); margin-bottom:16px;}
+  .skill-card ul{list-style:none;}
+  .skill-card li{font-size:14.5px; padding:6px 0; border-bottom:1px dashed var(--line); display:flex; align-items:center; gap:9px;}
+  .skill-card li:last-child{border-bottom:none;}
+  .skill-card li::before{content:""; width:5px; height:5px; background:var(--accent); border-radius:1px; flex-shrink:0;}
+
+  /* ---------- PROJECTS ---------- */
+  .projects{display:flex; flex-direction:column; gap:18px;}
+  .proj{
+    background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--line); border-radius:8px; padding:28px 30px;
+    display:grid; grid-template-columns: 70px 1fr; gap:22px; transition:.3s;
+  }
+  .proj:hover{border-color:var(--line); border-left-color:var(--accent); background:var(--panel-2); transform:translateY(-2px); box-shadow:0 16px 36px -18px rgba(0,0,0,0.55);}
+  @media (max-width:600px){ .proj{grid-template-columns:1fr; gap:10px;} }
+  .proj-id{font-family:var(--mono); font-size:13px; color:var(--text-dim);}
+  .proj h3{font-family:var(--display); font-size:1.18rem; font-weight:600; margin-bottom:8px;}
+  .proj p{color:var(--text-dim); font-size:14.5px; margin-bottom:12px;}
+  .proj-link{
+    display:inline-block; font-family:var(--mono); font-size:12px; color:var(--accent);
+    text-decoration:none; margin-top:12px; letter-spacing:0.04em; transition:gap .2s;
+  }
+  .proj-link:hover{text-decoration:underline;}
+  .tags{display:flex; flex-wrap:wrap; gap:8px;}
+  .tag{font-family:var(--mono); font-size:11px; color:var(--blue); border:1px solid var(--line); padding:4px 9px; border-radius:3px;}
+
+  .media{display:flex; flex-wrap:wrap; gap:12px; margin-top:16px;}
+  .media-item{
+    flex:1 1 220px; max-width:280px; aspect-ratio:16/10; border-radius:6px; overflow:hidden;
+    border:1px solid var(--line); background:var(--panel-2);
+  }
+  .media-item img, .media-item video{width:100%; height:100%; object-fit:cover; display:block;}
+  .media-placeholder{
+    width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:6px; color:var(--text-dim); font-family:var(--mono); font-size:11px; text-align:center; padding:10px;
+  }
+  .media-placeholder svg{opacity:0.5;}
+
+  /* ---------- CONTACT ---------- */
+  .contact-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+  @media (max-width:700px){ .contact-grid{grid-template-columns:1fr;} }
+  .contact-card{
+    border:1px solid var(--line); border-radius:10px; padding:24px; text-decoration:none; display:block;
+    background:linear-gradient(160deg, var(--panel), var(--panel-2));
+    transition:transform .25s, border-color .25s, box-shadow .25s;
+  }
+  .contact-card:hover{border-color:var(--accent); transform:translateY(-3px); box-shadow:0 14px 32px -16px rgba(255,106,50,0.25);}
+  .contact-card .label{font-family:var(--mono); font-size:11px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px;}
+  .contact-card .value{font-family:var(--display); font-size:1rem; font-weight:600; word-break:break-word;}
+
+  .cert-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px;}
+  @media (max-width:640px){ .cert-grid{grid-template-columns:1fr;} }
+  .cert-card{
+    background:linear-gradient(160deg, var(--panel), var(--panel-2));
+    border:1px solid var(--line); border-radius:8px; padding:22px 24px;
+    text-decoration:none; display:block; transition:.25s;
+  }
+  .cert-card:hover{ border-color:var(--accent); transform:translateY(-2px); box-shadow:0 12px 28px -14px rgba(255,106,50,0.25); }
+  .cert-issuer{ font-family:var(--mono); font-size:11px; color:var(--blue); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px; }
+  .cert-name{ font-family:var(--display); font-size:1rem; font-weight:600; color:var(--text); margin-bottom:8px; }
+  .cert-date{ font-family:var(--mono); font-size:11px; color:var(--text-dim); }
+
+  footer{padding:36px 0; text-align:center; font-family:var(--mono); font-size:12px; color:var(--text-dim); border-top:1px solid var(--line);}
+
+  .os-card{
+    display:grid; grid-template-columns:60px 1fr; gap:24px;
+    background:linear-gradient(160deg, var(--panel), var(--panel-2));
+    border:1px solid var(--line); border-left:3px solid var(--accent);
+    border-radius:8px; padding:28px 30px;
+  }
+  .os-logo{ display:flex; align-items:flex-start; padding-top:4px; }
+  .os-title{ font-family:var(--display); font-size:1.18rem; font-weight:600; margin-bottom:4px; }
+  .os-sub{ font-family:var(--mono); font-size:12px; color:var(--blue); margin-bottom:12px; }
+  .os-desc{ color:var(--text-dim); font-size:14.5px; margin-bottom:12px; }
+
+  /* ---------- TIMELINE ---------- */
+  .timeline{display:flex; flex-direction:column; gap:0;}
+  .tl-item{
+    display:grid; grid-template-columns:140px 1fr; gap:32px;
+    padding:24px 0; border-bottom:1px solid var(--line); position:relative;
+  }
+  .tl-item:last-child{border-bottom:none;}
+  .tl-date{font-family:var(--mono); font-size:12px; color:var(--text-dim); padding-top:4px; text-align:right; padding-right:16px; border-right:2px solid var(--line);}
+  .tl-degree{font-family:var(--display); font-size:1.05rem; font-weight:600; margin-bottom:4px;}
+  .tl-school{font-family:var(--mono); font-size:12px; color:var(--blue); margin-bottom:10px;}
+  .tl-desc{color:var(--text-dim); font-size:14px;}
+  @media (max-width:640px){
+    .tl-item{grid-template-columns:1fr; gap:6px;}
+    .tl-date{text-align:left; border-right:none; border-left:2px solid var(--accent); padding-left:10px; padding-right:0;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand"><b>KAFANDO THOMAS</b> · ROBOTICS</div>
+    <div class="navlinks">
+      <a href="#about" data-en="About" data-fr="Profil">About</a>
+      <a href="#education" data-en="Education" data-fr="Formation">Education</a>
+      <a href="#experience" data-en="Experience" data-fr="Expérience">Experience</a>
+      <a href="#skills" data-en="Skills" data-fr="Compétences">Skills</a>
+      <a href="#projects" data-en="Projects" data-fr="Projets">Projects</a>
+      <a href="#certificates" data-en="Certificates" data-fr="Certifications">Certificates</a>
+      <a href="#contact" data-en="Contact" data-fr="Contact">Contact</a>
+    </div>
+    <div class="lang-toggle">
+      <button id="btn-en" class="active">EN</button>
+      <button id="btn-fr">FR</button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow" data-en="Mechanical &amp; Robotics Engineering" data-fr="Ingénierie Mécanique &amp; Robotique">Mechanical &amp; Robotics Engineering</div>
+    <h1>KAFANDO <span class="last">THOMAS</span></h1>
+    <div class="role" data-en="Robot Mechanical Modeling and Simulation Engineer" data-fr="Ingénieur en Modélisation Mécanique et Simulation Robotique">Robot Mechanical Modeling and Simulation Engineer</div>
+    <p class="bio" data-en="I'm a Robot Mechanical Modeling and Simulation Engineer with a Master's degree in Mechanics, Robotics, and Innovative Materials. My thesis internship gave me hands-on experience in mechanical modeling and numerical simulation, and I have solid practical experience with the ROS 2 navigation stack and MoveIt 2 for robot motion planning." data-fr="Je suis ingénieur en modélisation mécanique et simulation de robots, titulaire d'un Master en Mécanique, Robotique et Matériaux Innovants. Mon stage de fin d'études m'a permis d'acquérir une solide expérience en modélisation mécanique et en simulation numérique, ainsi qu'une pratique avérée du framework de navigation ROS 2 et de MoveIt 2 pour la planification de mouvement des robots.">
+      I'm a Robot Mechanical Modeling and Simulation Engineer with a Master's degree in Mechanics, Robotics, and Innovative Materials. My thesis internship gave me hands-on experience in mechanical modeling and numerical simulation, and I have solid practical experience with the ROS 2 navigation stack and MoveIt 2 for robot motion planning.
+    </p>
+    <div class="hero-foot">
+      <a class="btn btn-primary" href="#projects" data-en="View Projects" data-fr="Voir les Projets">View Projects</a>
+      <a class="btn btn-ghost" href="mailto:kafandothomass20@gmail.com" data-en="Get in Touch" data-fr="Me Contacter">Get in Touch</a>
+    </div>
+  </div>
+
+  <svg class="schematic" width="260" height="260" viewBox="0 0 260 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="130" cy="130" r="90" stroke="#2c333d" stroke-width="1"/>
+    <circle cx="130" cy="130" r="60" stroke="#2c333d" stroke-width="1"/>
+    <line x1="130" y1="10" x2="130" y2="250" stroke="#2c333d" stroke-width="1"/>
+    <line x1="10" y1="130" x2="250" y2="130" stroke="#2c333d" stroke-width="1"/>
+    <line x1="130" y1="130" x2="200" y2="70" stroke="#ff6a32" stroke-width="2"/>
+    <line x1="200" y1="70" x2="235" y2="115" stroke="#6f93b3" stroke-width="2"/>
+    <circle cx="130" cy="130" r="4" fill="#ff6a32"/>
+    <circle cx="200" cy="70" r="4" fill="#ff6a32"/>
+    <circle cx="235" cy="115" r="4" fill="#6f93b3"/>
+  </svg>
+</header>
+
+<section id="about">
+  <div class="wrap reveal">
+    <div class="sec-head"><span class="sec-num">01</span><span class="sec-title" data-en="About" data-fr="Profil">About</span><div class="sec-line"></div></div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p data-en="My work sits at the intersection of mechanical design and robotic autonomy: building accurate kinematic and dynamic models, validating them through numerical simulation, and translating that foundation into reliable navigation and manipulation behavior." data-fr="Mon travail se situe à l'intersection de la conception mécanique et de l'autonomie robotique : construire des modèles cinématiques et dynamiques précis, les valider par simulation numérique, et transposer cette base en comportements de navigation et de manipulation fiables.">My work sits at the intersection of mechanical design and robotic autonomy.</p>
+        <p data-en="During my Master's thesis, I designed and built a mobile manipulator for agricultural applications, applying screw theory extensively alongside the ROS 2 ecosystem — Nav2, MoveIt 2, and BehaviorTree.CPP — to bring it to life." data-fr="Dans le cadre de mon mémoire de Master, j'ai conçu et réalisé un manipulateur mobile pour des applications agricoles, en appliquant intensivement la théorie des vis ainsi que l'écosystème ROS 2 — Nav2, MoveIt 2 et BehaviorTree.CPP.">During my Master's thesis, I designed and built a mobile manipulator for agricultural applications.</p>
+      </div>
+      <div class="specs">
+        <div class="row"><span data-en="Degree" data-fr="Diplôme">Degree</span><span data-en="M.Sc. Mechanics, Robotics &amp; Innovative Materials" data-fr="Master Mécanique, Robotique &amp; Matériaux Innovants">M.Sc. Mechanics, Robotics &amp; Innovative Materials</span></div>
+        <div class="row"><span data-en="Focus" data-fr="Spécialité">Focus</span><span data-en="Modeling &amp; Simulation" data-fr="Modélisation &amp; Simulation">Modeling &amp; Simulation</span></div>
+        <div class="row"><span data-en="Core Stack" data-fr="Outils clés">Core Stack</span><span>ROS 2 · Nav2 · MoveIt 2</span></div>
+        <div class="row"><span data-en="Location" data-fr="Localisation">Location</span><span data-en="Open to opportunities" data-fr="Ouvert aux opportunités">Open to opportunities</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap reveal">
+    <div class="sec-head"><span class="sec-num">02</span><span class="sec-title" data-en="Education" data-fr="Formation">Education</span><div class="sec-line"></div></div>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-date">2024 — 2026</div>
+        <div class="tl-body">
+          <div class="tl-degree" data-en="Master's — Mechanics, Robotics and Innovative Materials" data-fr="Master — Mécanique, Robotique et Matériaux Innovants">Master's — Mechanics, Robotics and Innovative Materials</div>
+          <div class="tl-school">ENSET Mohammedia · <span data-en="Hassan II University of Casablanca" data-fr="Université Hassan II de Casablanca">Hassan II University of Casablanca</span></div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">2023 — 2024</div>
+        <div class="tl-body">
+          <div class="tl-degree" data-en="BSc. — Mechanical Design and Manufacturing" data-fr="Licence — Conception et Fabrication Mécanique">BSc. — Mechanical Design and Manufacturing</div>
+          <div class="tl-school" data-en="Faculty of Sciences and Technology of Beni Mellal · Sultan Moulay Slimane University" data-fr="Faculté des Sciences et Techniques de Béni Mellal · Université Sultan Moulay Slimane">Faculty of Sciences and Technology of Beni Mellal · Sultan Moulay Slimane University</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">2021 — 2023</div>
+        <div class="tl-body">
+          <div class="tl-degree" data-en="DEUST — Mathematics, Computer Science, Physics and Chemistry" data-fr="DEUST — Mathématiques, Informatique, Physique et Chimie">DEUST — Mathematics, Computer Science, Physics and Chemistry</div>
+          <div class="tl-school" data-en="Faculty of Sciences and Technology of Beni Mellal · Sultan Moulay Slimane University" data-fr="Faculté des Sciences et Techniques de Béni Mellal · Université Sultan Moulay Slimane">Faculty of Sciences and Technology of Beni Mellal · Sultan Moulay Slimane University</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap reveal">
+    <div class="sec-head"><span class="sec-num">03</span><span class="sec-title" data-en="Experience" data-fr="Expérience">Experience</span><div class="sec-line"></div></div>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-date" data-en="Mar 2026 — Aug 2026" data-fr="Mars 2026 — Août 2026">Mar 2026 — Aug 2026</div>
+        <div class="tl-body">
+          <div class="tl-degree" data-en="Master's Thesis Intern — Design and Realisation of a Mobile Manipulator for Modern Agriculture" data-fr="Stagiaire de fin d'études Master — Conception et Réalisation d'un Manipulateur Mobile pour l'Agriculture Moderne">Master's Thesis Intern — Design and Realisation of a Mobile Manipulator for Modern Agriculture</div>
+          <div class="tl-school">M2S2I Lab · ENSET Mohammedia</div>
+          <p class="tl-desc" data-en="I designed and modeled a mobile manipulator for agricultural applications (CAD & URDF), implemented autonomous navigation and manipulation using Nav2 and MoveIt 2, and built the decision-making architecture with BehaviorTree.CPP." data-fr="J'ai conçu et modélisé un manipulateur mobile pour des applications agricoles (CAO & URDF), implémenté la navigation autonome et la manipulation avec Nav2 et MoveIt 2, et mis en place l'architecture de prise de décision avec BehaviorTree.CPP.">I designed and modeled a mobile manipulator for agricultural applications (CAD & URDF), implemented autonomous navigation and manipulation using Nav2 and MoveIt 2, and built the decision-making architecture with BehaviorTree.CPP.</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date" data-en="Apr 2024 — May 2024" data-fr="Avr 2024 — Mai 2024">Apr 2024 — May 2024</div>
+        <div class="tl-body">
+          <div class="tl-degree" data-en="BSc. Intern — Snow Plow Design" data-fr="Stagiaire Licence — Conception d'un Chasse-Neige">BSc. Intern — Snow Plow Design</div>
+          <div class="tl-school">Service de Logistique et de Matériel · Beni Mellal</div>
+          <p class="tl-desc" data-en="I conducted a feasibility study and concept generation phase, then performed full CAD modeling of a snow plow in SolidWorks and validated the design through structural analysis using Ansys Mechanical." data-fr="J'ai réalisé une étude de faisabilité et une phase de génération de concepts, puis effectué la modélisation CAO complète d'un chasse-neige sous SolidWorks et validé la conception par analyse structurelle avec Ansys Mechanical.">I conducted a feasibility study and concept generation phase, then performed full CAD modeling of a snow plow in SolidWorks and validated the design through structural analysis using Ansys Mechanical.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap reveal">
+    <div class="sec-head"><span class="sec-num">04</span><span class="sec-title" data-en="Skills" data-fr="Compétences">Skills</span><div class="sec-line"></div></div>
+    <div class="skill-groups">
+      <div class="skill-card">
+        <h3 data-en="Design &amp; Simulation" data-fr="Conception &amp; Simulation">Design &amp; Simulation</h3>
+        <ul>
+          <li>SolidWorks</li>
+          <li>MATLAB &amp; Simulink</li>
+          <li>Ansys Mechanical</li>
+          <li>Gazebo</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <h3 data-en="Programming" data-fr="Programmation">Programming</h3>
+        <ul>
+          <li data-en="C++ (advanced)" data-fr="C++ (avancé)">C++ (advanced)</li>
+          <li data-en="Python (advanced)" data-fr="Python (avancé)">Python (advanced)</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <h3 data-en="Robotics Frameworks" data-fr="Frameworks Robotiques">Robotics Frameworks</h3>
+        <ul>
+          <li>ROS 2</li>
+          <li>Nav2</li>
+          <li>MoveIt 2</li>
+          <li>BehaviorTree.CPP</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <h3 data-en="AI Frameworks" data-fr="Frameworks d'IA">AI Frameworks</h3>
+        <ul>
+          <li>scikit-learn</li>
+          <li>TensorFlow</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap reveal">
+    <div class="sec-head"><span class="sec-num">05</span><span class="sec-title" data-en="Projects" data-fr="Projets">Projects</span><div class="sec-line"></div></div>
+    <div class="projects">
+
+      <div class="proj">
+        <div class="proj-id">01</div>
+        <div>
+          <h3 data-en="Design and Realisation of a Mobile Manipulator for Modern Agriculture" data-fr="Conception et Réalisation d'un Manipulateur Mobile pour l'Agriculture Moderne">Design and Realisation of a Mobile Manipulator for Modern Agriculture</h3>
+          <p data-en="Master's thesis internship — I designed and modeled the robot in CAD and URDF, implemented autonomous navigation and manipulation using Nav2 and MoveIt 2, and built the decision-making architecture with BehaviorTree.CPP. Currently transitioning to real hardware deployment. Impact: streamlined rubber tree latex collection and significant productivity enhancement in agricultural operations." data-fr="Stage de fin d'études de Master — j'ai conçu et modélisé le robot en CAO et URDF, implémenté la navigation autonome et la manipulation avec Nav2 et MoveIt 2, et mis en place l'architecture de prise de décision avec BehaviorTree.CPP. Déploiement sur robot réel en cours. Impact : facilitation de la collecte de latex des arbres à caoutchouc et amélioration significative de la productivité des opérations agricoles.">Master's thesis internship — I designed and modeled the robot in CAD and URDF, implemented autonomous navigation and manipulation using Nav2 and MoveIt 2, and built the decision-making architecture with BehaviorTree.CPP.</p>
+          <div class="tags"><span class="tag">Screw Theory</span><span class="tag">ROS 2 Nav2</span><span class="tag">MoveIt 2</span><span class="tag">BehaviorTree.CPP</span></div>
+          <a href="https://github.com/kafando2000/wstta_agri_bot" target="_blank" rel="noopener" class="proj-link" data-en="View on GitHub →" data-fr="Voir sur GitHub →">View on GitHub →</a>
+          <div class="media">
+            <div class="media-item">
+              <img src="cad_model.png" alt="Mobile manipulator">
+              <div class="media-placeholder">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                <span data-en="Add image" data-fr="Ajouter une image">Add image</span>
+              </div>
+            </div>
+            <div class="media-item">
+              <video src="video_nav_mani.mp4" controls></video>
+              <div class="media-placeholder">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+                <span data-en="Add demo video" data-fr="Ajouter une vidéo">Add demo video</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="proj-id">02</div>
+        <div>
+          <h3 data-en="Snow Plow Design" data-fr="Conception d'un Chasse-Neige">Snow Plow Design</h3>
+          <p data-en="BSc. internship in Mechanical Design and Manufacturing — conducted a feasibility study and concept generation phase before proceeding to full CAD modeling in SolidWorks. Performed structural analysis using Ansys Mechanical to validate the design under load conditions." data-fr="Stage de Licence en Conception et Fabrication Mécanique — réalisation d'une étude de faisabilité et d'une phase de génération de concepts avant de procéder à la modélisation CAO complète sous SolidWorks. Analyse structurelle effectuée avec Ansys Mechanical pour valider la conception sous conditions de charge.">BSc. internship in Mechanical Design and Manufacturing.</p>
+          <div class="tags"><span class="tag">SolidWorks</span><span class="tag">Ansys Mechanical</span><span class="tag" data-en="Mechanical Design" data-fr="Conception Mécanique">Mechanical Design</span></div>
+          <div class="media">
+            <div class="media-item">
+             <img src="plaque.jpg" alt="plaque ">
+              <div class="media-placeholder">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                <span data-en="Add image" data-fr="Ajouter une image">Add image</span>
+              </div>
+            </div>
+            <div class="media-item">
+              <video src="etrave.mp4" controls></video>
+              <div class="media-placeholder">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+                <span data-en="Add demo video" data-fr="Ajouter une vidéo">Add demo video</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="proj-id">03</div>
+        <div>
+          <h3 data-en="Bottle Feeding &amp; Filling Cell" data-fr="Cellule d'Alimentation et de Remplissage de Bouteilles">Bottle Feeding &amp; Filling Cell</h3>
+          <p data-en="For this academic project, we simulated an industrial bottle feeding and filling process in ABB RobotStudio, coordinating two ABB robots and two conveyor belts to automate the full production sequence." data-fr="Dans ce projet académique, nous avons simulé un processus industriel d'alimentation et de remplissage de bouteilles dans ABB RobotStudio, en coordonnant deux robots ABB et deux tapis roulants pour automatiser la séquence de production complète.">For this academic project, we simulated an industrial bottle feeding and filling process in ABB RobotStudio, coordinating two ABB robots and two conveyor belts to automate the full production sequence.</p>
+          <div class="tags"><span class="tag">ABB RobotStudio</span><span class="tag" data-en="Industrial Robotics" data-fr="Robotique Industrielle">Industrial Robotics</span></div>
+          <div class="media">
+            <div class="media-item">
+              <video src="video_a_envoyer.mp4" controls></video>
+              <div class="media-placeholder">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+                <span data-en="Add demo video" data-fr="Ajouter une vidéo">Add demo video</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="proj-id">04</div>
+        <div>
+          <h3 data-en="Truss Load Modeling" data-fr="Modélisation de Charges sur Treillis">Truss Load Modeling</h3>
+          <p data-en="For this academic project, we used MATLAB to perform structural analysis of truss structures, computing stress, strain, and internal forces. Results were then compared against Ansys Mechanical simulations, confirming strong coherence between the analytical and numerical approaches." data-fr="Dans ce projet académique, nous avons utilisé MATLAB pour effectuer l'analyse structurelle de structures en treillis, en calculant les contraintes, déformations et forces internes. Les résultats ont ensuite été comparés aux simulations Ansys Mechanical, confirmant une forte cohérence entre les approches analytique et numérique.">For this academic project, we used MATLAB to perform structural analysis of truss structures.</p>
+          <div class="tags"><span class="tag">MATLAB</span><span class="tag" data-en="Structural Analysis" data-fr="Analyse Structurelle">Structural Analysis</span></div>
+          <div class="media">
+            <div class="media-item">
+             <img src="treillis.png" alt="treillis ">
+              <div class="media-placeholder">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                <span data-en="Add image" data-fr="Ajouter une image">Add image</span>
+              </div>
+            </div>
+            <div class="media-item">
+             <img src="strains.png" alt="normal stress ">
+              <div class="media-placeholder">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                <span data-en="Add image" data-fr="Ajouter une image">Add image</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="proj-id">05</div>
+        <div>
+          <h3 data-en="Heated Room Temperature Simulation" data-fr="Simulation Thermique d'une Pièce Chauffée">Heated Room Temperature Simulation</h3>
+          <p data-en="For this academic project, we modeled the temperature distribution in a heated room by solving heat transfer differential equations using the explicit Euler integration method. The model was programmed and simulated in MATLAB, comparing the thermal behaviour of different building materials — doors, windows, and floors — to identify the most thermally efficient configurations." data-fr="Dans ce projet académique, nous avons modélisé la distribution de température dans une pièce chauffée en résolvant les équations différentielles de transfert thermique par la méthode d'Euler explicite. Le modèle a été programmé et simulé sous MATLAB, en comparant le comportement thermique de différents matériaux de construction — portes, fenêtres et sols — afin d'identifier les configurations les plus efficaces thermiquement.">For this academic project, we modeled the temperature distribution in a heated room.</p>
+          <div class="tags"><span class="tag">MATLAB</span><span class="tag" data-en="Explicit Euler Method" data-fr="Méthode d'Euler Explicite">Explicit Euler Method</span><span class="tag" data-en="Heat Transfer" data-fr="Transfert Thermique">Heat Transfer</span><span class="tag" data-en="Numerical Simulation" data-fr="Simulation Numérique">Numerical Simulation</span><span class="tag" data-en="Material Comparison" data-fr="Comparaison de Matériaux">Material Comparison</span></div>
+         <!--
+         <div class="media">
+            <div class="media-item">
+             <div class="media-placeholder">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                <span data-en="Add image" data-fr="Ajouter une image">Add image</span>
+              </div>
+            </div> 
+          </div> -->
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="proj-id">06</div>
+        <div>
+          <h3 data-en="Failure Prediction in Production Line" data-fr="Prédiction de Pannes en Ligne de Production">Failure Prediction in Production Line</h3>
+          <p data-en="For this significant academic project, we built a machine learning pipeline to predict equipment failures in a production line. We trained and compared XGBoost and Random Forest classifiers using Scikit-learn, covering data preprocessing, feature engineering, model training, and performance evaluation for industrial fault detection. Results were streamed and visualized through an MQTT-based real-time dashboard." data-fr="Dans ce projet académique d'envergure, nous avons développé un pipeline de machine learning pour prédire les pannes d'équipements en ligne de production. Nous avons entraîné et comparé des classifieurs XGBoost et Random Forest avec Scikit-learn, couvrant le prétraitement des données, l'ingénierie des features, l'entraînement des modèles et l'évaluation des performances pour la détection de défauts industriels. Les résultats ont été diffusés et visualisés via un tableau de bord temps réel basé sur MQTT.">For this significant academic project, we built a machine learning pipeline to predict equipment failures in a production line.</p>
+          <div class="tags"><span class="tag">Python</span><span class="tag">Scikit-learn</span><span class="tag">XGBoost</span><span class="tag">Random Forest</span><span class="tag">MQTT</span><span class="tag" data-en="Machine Learning" data-fr="Apprentissage Automatique">Machine Learning</span><span class="tag" data-en="Real-time Dashboard" data-fr="Tableau de Bord Temps Réel">Real-time Dashboard</span></div>
+          <a href="https://github.com/kafando-thomas/failure-prediction" target="_blank" rel="noopener" class="proj-link" data-en="View on GitHub →" data-fr="Voir sur GitHub →">View on GitHub →</a>
+          <div class="media">
+            <div class="media-item">
+              <img src="viz_im0.jpeg" alt="visualization 1 ">
+              <div class="media-placeholder">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                <span data-en="Add image" data-fr="Ajouter une image">Add image</span>
+              </div>
+            </div>
+            <div class="media-item">
+            	<img src="viz_im1.jpeg" alt="visualization 2 ">
+              <div class="media-placeholder">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                <span data-en="Add image" data-fr="Ajouter une image">Add image</span>
+              </div>
+            </div>
+            <div class="media-item">
+              <img src="viz_im2.jpeg" alt="visualization 3 ">
+              <div class="media-placeholder">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                <span data-en="Add image" data-fr="Ajouter une image">Add image</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="certificates">
+  <div class="wrap reveal">
+    <div class="sec-head"><span class="sec-num">06</span><span class="sec-title" data-en="Certificates" data-fr="Certifications">Certificates</span><div class="sec-line"></div></div>
+    <div class="cert-grid">
+
+      <a class="cert-card" href="https://www.udemy.com/certificate/UC-dbc4952e-1df8-4fa8-b05e-06fdc87a54a4/" target="_blank" rel="noopener">
+        <div class="cert-issuer">Udemy</div>
+        <div class="cert-name" data-en="Mastering Data Structures & Algorithms using C and C++" data-fr="Maîtrise des Structures de Données & Algorithmes en C et C++">Mastering Data Structures & Algorithms using C and C++</div>
+        <div class="cert-date" data-en="Issued Nov 2025" data-fr="Délivré Nov 2025">Issued Nov 2025</div>
+      </a>
+      
+      <a class="cert-card" href="https://www.credly.com/badges/f6090347-69c6-4938-97f7-6244b179443a/public_url" target="_blank" rel="noopener">
+        <div class="cert-issuer">Amazon Web Services (AWS)</div>
+        <div class="cert-name" data-en="AWS Educate Machine Learning Foundations" data-fr="AWS Educate Machine Learning Foundations">AWS Educate Machine Learning Foundations</div>
+        <div class="cert-date" data-en="Jun 21, 2025" data-fr="Délivré Jun 2025">Issued Jun 2025</div>
+      </a>
+
+      <a class="cert-card" href="https://www.udemy.com/certificate/UC-6a26a3e7-5947-4553-a32e-6dc086a44861/" target="_blank" rel="noopener">
+        <div class="cert-issuer">Udemy</div>
+        <div class="cert-name" data-en="ROS 2 - Hardware and ros2_control, Step by Step" data-fr="ROS 2 - Matériel et ros2_control, Étape par Étape">ROS 2 - Hardware and ros2_control, Step by Step</div>
+        <div class="cert-date" data-en="Issued Nov 2025" data-fr="Délivré Nov 2025">Issued Nov 2025</div>
+      </a>
+
+      <a class="cert-card" href="https://courses.opencv.org/certificates/c649a3d238004bb58fc61c6562282b38" target="_blank" rel="noopener">
+        <div class="cert-issuer">OpenCV University</div>
+        <div class="cert-name" data-en="TensorFlow-Keras Bootcamp" data-fr="Bootcamp TensorFlow-Keras">TensorFlow-Keras Bootcamp</div>
+        <div class="cert-date" data-en="Issued Jul 2025" data-fr="Délivré Jul 2025">Issued Jul 2025</div>
+      </a>
+
+      <a class="cert-card" href="https://www.udemy.com/certificate/UC-2a2d76dc-1186-4df7-927b-8f52573944c5/" target="_blank" rel="noopener">
+        <div class="cert-issuer">Udemy</div>
+        <div class="cert-name" data-en="ROS 2 for Beginners Level 3 - Advanced Concepts" data-fr="ROS 2 pour Débutants Niveau 3 - Concepts Avancés">ROS 2 for Beginners Level 3 - Advanced Concepts</div>
+        <div class="cert-date" data-en="Issued Jul 2025" data-fr="Délivré Jul 2025">Issued Jul 2025</div>
+      </a>
+      
+      <a class="cert-card" href="https://www.udacity.com/certificate/e/da2c5dd4-4170-11f0-b448-eb6313868332" target="_blank" rel="noopener">
+        <div class="cert-issuer">Udacity</div>
+        <div class="cert-name" data-en="Introducing Generative AI with AWS" data-fr="Introduction à l'IA generative avec AWS">Introducing Generative AI with AWS</div>
+        <div class="cert-date" data-en="Issued Jun 2025" data-fr="Délivré Juin 2025">Issued Jun 2025</div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap reveal">
+    <div class="sec-head"><span class="sec-num">07</span><span class="sec-title" data-en="Contact" data-fr="Contact">Contact</span><div class="sec-line"></div></div>
+    <div class="contact-grid">
+      <a class="contact-card" href="mailto:kafandothomass20@gmail.com">
+        <div class="label">Email</div>
+        <div class="value">kafandothomass20@gmail.com</div>
+      </a>
+      <a class="contact-card" href="https://bit.ly/4nVPmJw" target="_blank" rel="noopener">
+        <div class="label">LinkedIn</div>
+        <div class="value">linkedin.com/in/kafando-thomas</div>
+      </a>
+      <a class="contact-card" href="https://bit.ly/47mL1sR" target="_blank" rel="noopener">
+        <div class="label">GitHub</div>
+        <div class="value">github.com/kafando-thomas</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" data-en="© 2026 Kafando Thomas — Built with precision." data-fr="© 2026 Kafando Thomas — Conçu avec précision.">© 2026 Kafando Thomas — Built with precision.</div>
+</footer>
+
+<script>
+  const btnEn = document.getElementById('btn-en');
+  const btnFr = document.getElementById('btn-fr');
+  const htmlRoot = document.getElementById('html-root');
+
+  function setLang(lang){
+    document.querySelectorAll('[data-en]').forEach(el => {
+      el.innerHTML = el.getAttribute('data-' + lang);
+    });
+    htmlRoot.setAttribute('lang', lang);
+    btnEn.classList.toggle('active', lang === 'en');
+    btnFr.classList.toggle('active', lang === 'fr');
+  }
+
+  btnEn.addEventListener('click', () => setLang('en'));
+  btnFr.addEventListener('click', () => setLang('fr'));
+  setLang('en'); // apply English content on page load
+
+  // Scroll-triggered reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => io.observe(el));
+
+  // Nav shadow on scroll
+  const navEl = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    navEl.classList.toggle('scrolled', window.scrollY > 12);
+  });
+</script>
+
+</body>
+</html>
