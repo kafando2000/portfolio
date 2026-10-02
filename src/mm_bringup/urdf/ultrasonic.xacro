@@ -1,0 +1,176 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="WSTTA_ROBOT">
+     <link
+    name="left_ultrasonic_link">
+    <inertial>
+      <origin
+        xyz="-0.00143221937581295 1.59740296288291E-05 -0.00742508206336662"
+        rpy="0 0 0" />
+      <mass
+        value="0.00401081333903489" />
+      <inertia
+        ixx="3.75731975745876E-07"
+        ixy="3.2560781885317E-14"
+        ixz="-9.45042350142405E-15"
+        iyy="1.13242599861084E-07"
+        iyz="3.53560851715074E-14"
+        izz="3.11874315449823E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find mm_bringup)/meshes/left_ultrasonic_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find mm_bringup)/meshes/left_ultrasonic_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="left_ultrasonic_joint"
+    type="fixed">
+    <origin
+      xyz="0.19969 0.09727 0.061846"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="left_ultrasonic_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="right_ultrasonic_link">
+    <inertial>
+      <origin
+        xyz="0.000185690281360396 -0.00142022062704616 -0.00742508206336595"
+        rpy="0 0 0" />
+      <mass
+        value="0.00401081333903396" />
+      <inertia
+        ixx="1.18438572497292E-07"
+        ixy="-3.65634993232588E-08"
+        ixz="-3.36747887960103E-14"
+        iyy="3.70536003109624E-07"
+        iyz="-1.43308306228124E-14"
+        izz="3.11874315449814E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find mm_bringup)/meshes/right_ultrasonic_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find mm_bringup)/meshes/right_ultrasonic_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="right_ultrasonic_joint"
+    type="fixed">
+    <origin
+      xyz="0.19969 -0.096794 0.061846"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="right_ultrasonic_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+<!--
+  <gazebo reference="left_ultrasonic_link">
+  <sensor name="left_ultrasonic_sensor" type="ray">
+    <always_on>true</always_on>
+    <update_rate>20</update_rate>
+    <visualize>true</visualize>
+
+    <ray>
+      <scan>
+        <horizontal>
+          <samples>5</samples>
+          <resolution>1</resolution>
+          <min_angle>-0.15</min_angle>
+          <max_angle>0.15</max_angle>
+        </horizontal>
+      </scan>
+
+      <range>
+        <min>0.02</min>
+        <max>4.0</max>
+        <resolution>0.01</resolution>
+      </range>
+
+      <noise>
+        <type>gaussian</type>
+        <mean>0.0</mean>
+        <stddev>0.01</stddev>
+      </noise>
+    </ray>
+
+    <topic>/ultrasonic</topic>
+  </sensor>
+</gazebo>
+<gazebo reference="right_ultrasonic_link">
+  <sensor name="right_ultrasonic_sensor" type="ray">
+    <always_on>true</always_on>
+    <update_rate>20</update_rate>
+    <visualize>true</visualize>
+
+    <ray>
+      <scan>
+        <horizontal>
+          <samples>5</samples>
+          <resolution>1</resolution>
+          <min_angle>-0.15</min_angle>
+          <max_angle>0.15</max_angle>
+        </horizontal>
+      </scan>
+
+      <range>
+        <min>0.02</min>
+        <max>4.0</max>
+        <resolution>0.01</resolution>
+      </range>
+
+      <noise>
+        <type>gaussian</type>
+        <mean>0.0</mean>
+        <stddev>0.01</stddev>
+      </noise>
+    </ray>
+
+    <topic>/ultrasonic</topic>
+  </sensor>
+</gazebo>
+-->
+
+</robot>

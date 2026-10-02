@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4"
+      main_tree_to_execute="MainTree">
+  <BehaviorTree ID="Dropsequence">
+    <Sequence>
+      <Sequence>
+        <PlanExecForGripper plan_key="grasp"
+                            is_exec_gripper="{@is_exec_gripper}"
+                            is_grasped="{@is_grasped}"/>
+        <PlanForTheArm name="PlanToDropObject"
+                       objects_poses_vect="{@objects_poses_vect}"
+                       arm_joints_traject="{@arm_joints_traject}"
+                       plan_key="before_drop_prod_pose"
+                       circle_radius="{@circle_radius}"
+                       plan_object_info="{@plan_object_info}"
+                       theta_shift="{@theta_shift}"
+                       is_container_full="{@is_container_full}"/>
+        <CheckBattery name="ForManipulation"
+                      percentage_treshold="25.0"
+                      battery_percentage="{@battery_percentage}"/>
+        <ExecuteArmPlan arm_joints_traject="{@arm_joints_traject}"
+                        is_container_full="{@is_container_full}"
+                        exec_key="any"
+                        is_exec_gripper="{@is_exec_gripper}"/>
+      </Sequence>
+      <Sequence>
+        <PlanForTheArm name="PlanToDropObject"
+                       objects_poses_vect="{@objects_poses_vect}"
+                       arm_joints_traject="{@arm_joints_traject}"
+                       plan_key="arm_drop_prod_pose"
+                       circle_radius="{@circle_radius}"
+                       plan_object_info="{@plan_object_info}"
+                       theta_shift="{@theta_shift}"
+                       is_container_full="{@is_container_full}"/>
+        <CheckBattery name="ForManipulation"
+                      percentage_treshold="25.0"
+                      battery_percentage="{@battery_percentage}"/>
+        <ExecuteArmPlan arm_joints_traject="{@arm_joints_traject}"
+                        is_container_full="{@is_container_full}"
+                        exec_key="any"
+                        is_exec_gripper="{@is_exec_gripper}"/>
+        <PlanExecForGripper plan_key="open"
+                            is_exec_gripper="{@is_exec_gripper}"
+                            is_grasped="{@is_grasped}"/>
+      </Sequence>
+      <Sequence>
+        <PlanExecForGripper plan_key="close"
+                            is_exec_gripper="{@is_exec_gripper}"
+                            is_grasped="{@is_grasped}"/>
+        <PlanForTheArm name="PlanToDropObject"
+                       objects_poses_vect="{@objects_poses_vect}"
+                       arm_joints_traject="{@arm_joints_traject}"
+                       plan_key="before_drop_prod_pose"
+                       circle_radius="{@circle_radius}"
+                       plan_object_info="{@plan_object_info}"
+                       theta_shift="{@theta_shift}"
+                       is_container_full="{@is_container_full}"/>
+        <CheckBattery name="ForManipulation"
+                      percentage_treshold="25.0"
+                      battery_percentage="{@battery_percentage}"/>
+        <ExecuteArmPlan arm_joints_traject="{@arm_joints_traject}"
+                        is_container_full="{@is_container_full}"
+                        exec_key="any"
+                        is_exec_gripper="{@is_exec_gripper}"/>
+      </Sequence>
+      <Sequence>
+        <PlanForTheArm name="PlanToDropObject"
+                       objects_poses_vect="{@objects_poses_vect}"
+                       arm_joints_traject="{@arm_joints_traject}"
+                       plan_key="arm_initial_pose"
+                       circle_radius="{@circle_radius}"
+                       plan_object_info="{@plan_object_info}"
+                       theta_shift="{@theta_shift}"
+                       is_container_full="{@is_container_full}"/>
+        <CheckBattery name="ForManipulation"
+                      percentage_treshold="25.0"
+                      battery_percentage="{@battery_percentage}"/>
+        <ExecuteArmPlan arm_joints_traject="{@arm_joints_traject}"
+                        is_container_full="{@is_container_full}"
+                        exec_key="any"
+                        is_exec_gripper="{@is_exec_gripper}"/>
+      </Sequence>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="JustNavigate">
+    <ReactiveSequence>
+      <CheckBattery name="ForNavigation"
+                    percentage_treshold="25.0"
+                    battery_percentage="{@battery_percentage}"/>
+      <NavigateToPose name="GlobalPathNavigation"
+                      key="in_global_long_path"
+                      plan_object_info="{@plan_object_info}"
+                      base_long_path_pose="{@base_long_path_pose}"
+                      base_initial_pose="{@base_initial_pose}"
+                      is_go_to_initials="{@is_go_to_initials}"
+                      is_container_full="{@is_container_full}"
+                      unload_poses="{@unload_poses}"
+                      objects_poses_vect="{@objects_poses_vect}"
+                      circle_radius="{@circle_radius}"/>
+    </ReactiveSequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="MainTree">
+    <WhileDoElse>
+      <CheckGoToInitials is_go_to_initials="{@is_go_to_initials}"/>
+      <Sequence name="GoToInitialsBothArmAndBase">
+        <PlanForTheArm name="PlanForArmIniatialPose"
+                       objects_poses_vect="{@objects_poses_vect}"
+                       arm_joints_traject="{@arm_joints_traject}"
+                       plan_key="arm_initial_pose"
+                       circle_radius="{@circle_radius}"
+                       plan_object_info="{@plan_object_info}"
+                       theta_shift="{@theta_shift}"
+                       is_container_full="{@is_container_full}"/>
+        <Sequence>
+          <ExecuteArmPlan arm_joints_traject="{@arm_joints_traject}"
+                          is_container_full="{@is_container_full}"
+                          exec_key="any"
+                          is_exec_gripper="{@is_exec_gripper}"/>
+          <CheckBattery name="ForManipulation"
+                        percentage_treshold="25.0"
+                        battery_percentage="{@battery_percentage}"/>
+        </Sequence>
+        <ReactiveSequence>
+          <CheckBattery name="ForNavigation"
+                        percentage_treshold="25.0"
+                        battery_percentage="{@battery_percentage}"/>
+          <NavigateToPose name="ToInitialPose"
+                          key="initial"
+                          plan_object_info="{@plan_object_info}"
+                          base_long_path_pose="{@base_long_path_pose}"
+                          base_initial_pose="{@base_initial_pose}"
+                          is_go_to_initials="{@is_go_to_initials}"
+                          is_container_full="{@is_container_full}"
+                          unload_poses="{@unload_poses}"
+                          objects_poses_vect="{@objects_poses_vect}"
+                          circle_radius="{@circle_radius}"/>
+        </ReactiveSequence>
+      </Sequence>
+      <WhileDoElse>
+        <ContainerChecker is_container_full="{@is_container_full}"/>
+        <Sequence>
+          <ReactiveSequence>
+            <CheckBattery percentage_treshold="25.0"
+                          battery_percentage="{@battery_percentage}"/>
+            <NavigateToPose name="ForUnLoading"
+                            key="unload"
+                            plan_object_info="{@plan_object_info}"
+                            base_long_path_pose="{@base_long_path_pose}"
+                            base_initial_pose="{@base_initial_pose}"
+                            is_go_to_initials="{@is_go_to_initials}"
+                            is_container_full="{@is_container_full}"
+                            unload_poses="{@unload_poses}"
+                            objects_poses_vect="{@objects_poses_vect}"
+                            circle_radius="{@circle_radius}"/>
+          </ReactiveSequence>
+          <UnLoad is_container_full="{@is_container_full}"/>
+        </Sequence>
+        <Fallback>
+          <ReactiveSequence>
+            <JustNavigateChecker objects_poses_vect="{@objects_poses_vect}"
+                                 is_container_full="{@is_container_full}"/>
+            <SubTree ID="JustNavigate"
+                     _autoremap="false"/>
+          </ReactiveSequence>
+          <SubTree ID="TrackObject"
+                   _autoremap="false"/>
+        </Fallback>
+      </WhileDoElse>
+    </WhileDoElse>
+  </BehaviorTree>
+
+  <BehaviorTree ID="TrackObject">
+    <Sequence name="WholeManipulation">
+      <Sequence name="ObJectTracking">
+        <ReactiveSequence name="GoToTakeObject">
+          <CheckBattery name="ForNavigation"
+                        percentage_treshold="25.0"
+                        battery_percentage="{@battery_percentage}"/>
+          <NavigateToPose name="NearObject"
+                          key="in_track_object"
+                          plan_object_info="{@plan_object_info}"
+                          base_long_path_pose="{@base_long_path_pose}"
+                          base_initial_pose="{@base_initial_pose}"
+                          is_go_to_initials="{@is_go_to_initials}"
+                          is_container_full="{@is_container_full}"
+                          unload_poses="{@unload_poses}"
+                          objects_poses_vect="{@objects_poses_vect}"
+                          circle_radius="{@circle_radius}"/>
+        </ReactiveSequence>
+        <Sequence>
+          <PlanForTheArm name="PlanToTakeObject"
+                         objects_poses_vect="{@objects_poses_vect}"
+                         arm_joints_traject="{@arm_joints_traject}"
+                         plan_key="for_object"
+                         circle_radius="{@circle_radius}"
+                         plan_object_info="{@plan_object_info}"
+                         theta_shift="{@theta_shift}"
+                         is_container_full="{@is_container_full}"/>
+          <Sequence>
+            <CheckBattery name="ForManipulation"
+                          percentage_treshold="25.0"
+                          battery_percentage="{@battery_percentage}"/>
+            <PlanExecForGripper plan_key="open"
+                                is_exec_gripper="{@is_exec_gripper}"
+                                is_grasped="{@is_grasped}"/>
+            <ExecuteArmPlan arm_joints_traject="{@arm_joints_traject}"
+                            is_container_full="{@is_container_full}"
+                            exec_key="to_object_pose"
+                            is_exec_gripper="{@is_exec_gripper}"/>
+          </Sequence>
+        </Sequence>
+      </Sequence>
+      <SubTree ID="Dropsequence"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Condition ID="CheckBattery"
+               editable="true">
+      <input_port name="percentage_treshold"
+                  default="25.0"
+                  type="double"/>
+      <input_port name="battery_percentage"
+                  type="double"/>
+    </Condition>
+    <Condition ID="CheckGoToInitials"
+               editable="true">
+      <input_port name="is_go_to_initials"
+                  default="false"
+                  type="bool"/>
+    </Condition>
+    <Condition ID="ContainerChecker"
+               editable="true">
+      <input_port name="is_container_full"
+                  type="bool"/>
+    </Condition>
+    <Action ID="ExecuteArmPlan"
+            editable="true">
+      <input_port name="arm_joints_traject"/>
+      <output_port name="is_container_full"
+                   type="bool"/>
+      <input_port name="exec_key"
+                  default="any"
+                  type="std::string">having ofset after preplan from inital pose during execution we need to reset to inital before execution</input_port>
+      <inout_port name="is_exec_gripper"
+                  type="bool">for activating gripper actions</inout_port>
+    </Action>
+    <Condition ID="JustNavigateChecker"
+               editable="true">
+      <input_port name="objects_poses_vect"/>
+      <input_port name="is_container_full"/>
+    </Condition>
+    <Action ID="NavigateToPose"
+            editable="true">
+      <input_port name="key"
+                  type="std::string"/>
+      <inout_port name="plan_object_info"/>
+      <input_port name="base_long_path_pose"/>
+      <input_port name="base_initial_pose"/>
+      <inout_port name="is_go_to_initials"
+                  type="bool"/>
+      <output_port name="is_container_full"
+                   type="bool"/>
+      <input_port name="unload_poses"/>
+      <input_port name="objects_poses_vect"/>
+      <input_port name="circle_radius"
+                  type="double"/>
+    </Action>
+    <Action ID="PlanExecForGripper"
+            editable="true">
+      <input_port name="plan_key"
+                  type="std::string"/>
+      <inout_port name="is_exec_gripper"
+                  type="bool"/>
+      <inout_port name="is_grasped"
+                  type="bool"/>
+    </Action>
+    <Action ID="PlanForTheArm"
+            editable="true">
+      <input_port name="objects_poses_vect"/>
+      <output_port name="arm_joints_traject"/>
+      <input_port name="plan_key"
+                  type="std::string"/>
+      <input_port name="circle_radius"
+                  default="0.32"
+                  type="double"/>
+      <inout_port name="plan_object_info"/>
+      <inout_port name="theta_shift"/>
+      <output_port name="is_container_full"
+                   type="bool"/>
+    </Action>
+    <Action ID="UnLoad"
+            editable="true">
+      <inout_port name="is_container_full"
+                  type="bool"/>
+    </Action>
+  </TreeNodesModel>
+
+</root>

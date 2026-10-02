@@ -1,0 +1,46 @@
+name: Deploy Doxygen Docs to Cloudflare Workers
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/mm_behaviors/include/**'
+      - 'src/mm_behaviors/src/**'
+      - 'src/mm_behaviors/Doxyfile'
+      - 'src/mm_behaviors/wrangler.jsonc'
+      - '.github/workflows/docs_cloudflare.yml'
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install Doxygen and Graphviz
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz
+
+      - name: Generate documentation
+        working-directory: src/mm_behaviors
+        run: doxygen Doxyfile
+
+      - name: Verify docs were generated
+        working-directory: src/mm_behaviors
+        run: |
+          if [ ! -f docs/html/index.html ]; then
+            echo "Doxygen did not generate docs/html/index.html — check your Doxyfile OUTPUT_DIRECTORY setting."
+            exit 1
+          fi
+
+      - name: Deploy to Cloudflare Workers
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: src/mm_behaviors
+          command: deploy

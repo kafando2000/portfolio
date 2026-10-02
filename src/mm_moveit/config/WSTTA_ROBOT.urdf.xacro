@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="WSTTA_ROBOT">
+    <xacro:arg name="initial_positions_file" default="initial_positions.yaml" />
+
+    <!-- Import WSTTA_ROBOT urdf file -->
+    <xacro:include filename="$(find mm_bringup)/urdf/MyRobot.urdf.xacro" />
+
+    <!-- Import control_xacro -->
+    <xacro:include filename="WSTTA_ROBOT.ros2_control.xacro" />
+
+
+    <xacro:WSTTA_ROBOT_ros2_control name="FakeSystem" initial_positions_file="$(arg initial_positions_file)"/>
+
+</robot>

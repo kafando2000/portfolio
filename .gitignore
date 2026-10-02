@@ -1,0 +1,30 @@
+## Visual Studio cache and settings
+.vs/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+
+## User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Visual Studio Code files
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+## Secrets and environment variables
+*.env
+*.json
+
+build/
+install/
+log/

@@ -1,0 +1,434 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="WSTTA_ROBOT">
+ <link
+    name="arm_link0">
+    <inertial>
+      <origin
+        xyz="-0.000105081908912896 2.67535850118072E-05 0.0215025001326293"
+        rpy="0 0 0" />
+      <mass
+        value="0.138895088247773" />
+      <inertia
+        ixx="0.000271974582882528"
+        ixy="-2.21998026342314E-06"
+        ixz="3.96911059776746E-07"
+        iyy="0.000292737634863007"
+        iyz="2.29399163925369E-08"
+        izz="0.00034859146186677" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find mm_bringup)/meshes/arm_link0_cv.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find mm_bringup)/meshes/arm_link0_cv.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="arm_joint0"
+    type="fixed">
+    <origin
+      xyz="0.08969 0.00023801 0.01"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="arm_link0" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="arm_link1">
+    <inertial>
+      <origin
+        xyz="-0.00117295121645244 0.00752828881045886 0.0308247332284017"
+        rpy="0 0 0" />
+      <mass
+        value="0.0999796950389305" />
+      <inertia
+        ixx="0.000115795606251338"
+        ixy="1.04604489941195E-06"
+        ixz="-1.25415222333401E-05"
+        iyy="0.000137185873368209"
+        iyz="-1.18366383376011E-05"
+        izz="8.0685589133167E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find mm_bringup)/meshes/arm_link1_cv.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find mm_bringup)/meshes/arm_link1_cv.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="arm_joint1"
+    type="revolute">
+    <origin
+      xyz="0 0 0.0755"
+      rpy="0 0 0" />
+    <parent
+      link="arm_link0" />
+    <child
+      link="arm_link1" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="2.0"
+      velocity="3.14" />
+    <dynamics
+      damping="0.5"
+      friction="1" />
+  </joint>
+  <link
+    name="arm_link2">
+    <inertial>
+      <origin
+        xyz="-0.0189017006519113 -0.0103814385456387 0.0567812965784565"
+        rpy="0 0 0" />
+      <mass
+        value="0.0844607146826189" />
+      <inertia
+        ixx="0.000227085683196039"
+        ixy="1.96412479349924E-07"
+        ixz="6.11614065615986E-05"
+        iyy="0.000251063094500007"
+        iyz="3.62467650716278E-07"
+        izz="3.400327480187E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find mm_bringup)/meshes/arm_link2_cv.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.113725490196078 0.207843137254902 0.349019607843137 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find mm_bringup)/meshes/arm_link2_cv.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="arm_joint2"
+    type="revolute">
+    <origin
+      xyz="0.01392 -0.0015 0.070276"
+      rpy="0 0 0" />
+    <parent
+      link="arm_link1" />
+    <child
+      link="arm_link2" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-1.57"
+      upper="2.5"
+      effort="1.0"
+      velocity="3.14" />
+    <dynamics
+      damping="0.5"
+      friction="0.1" />
+  </joint>
+  <link
+    name="arm_link3">
+    <inertial>
+      <origin
+        xyz="0.0612417590826622 0.0123044035062527 0.00332795368001082"
+        rpy="0 0 0" />
+      <mass
+        value="0.0740412399164265" />
+      <inertia
+        ixx="1.51461495760891E-05"
+        ixy="1.87890880332875E-07"
+        ixz="-1.23345676156855E-06"
+        iyy="6.69786339207029E-05"
+        iyz="-1.74810340733919E-07"
+        izz="6.25896919551798E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find mm_bringup)/meshes/arm_link3_cv.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find mm_bringup)/meshes/arm_link3_cv.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="arm_joint3"
+    type="revolute">
+    <origin
+      xyz="-0.033534 0 0.11522"
+      rpy="0 0 0" />
+    <parent
+      link="arm_link2" />
+    <child
+      link="arm_link3" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="0.8"
+      velocity="3.14" />
+    <dynamics
+      damping="0.5"
+      friction="0.1" />
+  </joint>
+  <link
+    name="arm_link4">
+    <inertial>
+      <origin
+        xyz="-0.00223675980731186 -0.00412860953457939 -0.0329669144703736"
+        rpy="0 0 0" />
+      <mass
+        value="0.0237707021338408" />
+      <inertia
+        ixx="3.06472923244956E-06"
+        ixy="1.56917452535519E-08"
+        ixz="-1.2191958944602E-07"
+        iyy="4.52471977478778E-06"
+        iyz="7.00939410198099E-08"
+        izz="1.72710605904475E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find mm_bringup)/meshes/arm_link4_cv.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.113725490196078 0.207843137254902 0.349019607843137 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find mm_bringup)/meshes/arm_link4_cv.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="arm_joint4"
+    type="revolute">
+    <origin
+      xyz="0.12212 0.028701 0.0057872"
+      rpy="0 0 0" />
+    <parent
+      link="arm_link3" />
+    <child
+      link="arm_link4" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="0.8"
+      velocity="3.14" />
+    <dynamics
+      damping="0.5"
+      friction="0.1" />
+  </joint>
+  <link
+    name="ee_actuated_tooth_link">
+    <inertial>
+      <origin
+        xyz="0.00151973202337197 -0.00166348927847704 -0.0159339485040206"
+        rpy="0 0 0" />
+      <mass
+        value="0.00199832653612763" />
+      <inertia
+        ixx="4.37343327386021E-07"
+        ixy="-1.68250626259731E-10"
+        ixz="3.98346043239311E-08"
+        iyy="4.71987238525176E-07"
+        iyz="1.26610016737789E-09"
+        izz="3.75745419565367E-08" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find mm_bringup)/meshes/ee_actuated_tooth_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.298039215686275 0.298039215686275 0.298039215686275 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find mm_bringup)/meshes/ee_actuated_tooth_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="ee_actuated_tooth_joint"
+    type="revolute">
+    <origin
+      xyz="-0.0092532 0.0045 -0.057797"
+      rpy="0 0 0" />
+    <parent
+      link="arm_link4" />
+    <child
+      link="ee_actuated_tooth_link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="0.0"
+      upper="1.2"
+      effort="0.2"
+      velocity="3.0" />
+    <dynamics
+      damping="0.2"
+      friction="0.05" />
+  </joint>
+  <link
+    name="ee_unactuated_tooth_link">
+    <inertial>
+      <origin
+        xyz="-0.000819745512081527 -2.22044604925031E-16 -0.0150597266885994"
+        rpy="0 0 0" />
+      <mass
+        value="0.00219498232444462" />
+      <inertia
+        ixx="4.64005212572192E-07"
+        ixy="1.7205356741103E-22"
+        ixz="-3.12437012373192E-08"
+        iyy="4.97544627107536E-07"
+        iyz="3.24225932492763E-22"
+        izz="3.68318880220112E-08" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find mm_bringup)/meshes/ee_unactuated_tooth_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.298039215686275 0.298039215686275 0.298039215686275 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find mm_bringup)/meshes/ee_unactuated_tooth_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="ee_unactuated_tooth_joint"
+    type="revolute">
+    <origin
+      xyz="0.0092968 0.00265 -0.057797"
+      rpy="0 0 0" />
+    <parent
+      link="arm_link4" />
+    <child
+      link="ee_unactuated_tooth_link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-1.0"
+      upper="0.0"
+      effort="5"
+      velocity="2.0" />
+    <dynamics
+      damping="0.2"
+      friction="0.05" />
+    <mimic
+      joint="ee_actuated_tooth_joint"
+      multiplier="-1"
+      offset="0" />
+  </joint>
+  <!-- A virtual link to have a frame of reference for grasping-->
+  <link name="grasping_frame" />
+  <joint name="grasping_frame_joint" type="fixed">
+  <parent link="arm_link4" />
+  <child link="grasping_frame" />
+  <origin xyz="0.0007468 0.0045 -0.087797" rpy="0 0 0" />
+</joint>
+    
+</robot>

@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="WSTTA_ROBOT">
+    <link
+    name="imu_link">
+    <inertial>
+      <origin
+        xyz="0.000337580969235307 0.000244410588357669 -0.00130420719275237"
+        rpy="0 0 0" />
+      <mass
+        value="0.000430352510665145" />
+      <inertia
+        ixx="1.15865849097513E-08"
+        ixy="7.50810920527358E-12"
+        ixz="3.39302511239693E-18"
+        iyy="6.41425918655664E-09"
+        iyz="1.56474374358564E-18"
+        izz="1.79321304650563E-08" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find mm_bringup)/meshes/imu_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.298039215686275 0.298039215686275 0.298039215686275 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find mm_bringup)/meshes/imu_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="imu_joint"
+    type="fixed">
+    <origin
+      xyz="-0.051043 -0.0023657 0.0321"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="imu_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <gazebo reference="imu_link">
+      <sensor name="imu_sensor" type="imu">
+        <always_on>true</always_on>
+        <update_rate>100</update_rate>
+        <visualize>true</visualize>
+        <topic>imu</topic>
+        <imu>
+          <angular_velocity>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+                <bias_mean>0.0000075</bias_mean>
+                <bias_stddev>0.0000008</bias_stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+                <bias_mean>0.0000075</bias_mean>
+                <bias_stddev>0.0000008</bias_stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+                <bias_mean>0.0000075</bias_mean>
+                <bias_stddev>0.0000008</bias_stddev>
+              </noise>
+            </z>
+          </angular_velocity>
+          <linear_acceleration>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+                <bias_mean>0.1</bias_mean>
+                <bias_stddev>0.001</bias_stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+                <bias_mean>0.1</bias_mean>
+                <bias_stddev>0.001</bias_stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+                <bias_mean>0.1</bias_mean>
+                <bias_stddev>0.001</bias_stddev>
+              </noise>
+            </z>
+          </linear_acceleration>
+        </imu>
+      </sensor>
+    </gazebo>
+</robot>

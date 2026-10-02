@@ -1,0 +1,8 @@
+# request
+
+string var1
+string var2
+---
+# response 
+
+string concat_string

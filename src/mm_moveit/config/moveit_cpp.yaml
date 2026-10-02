@@ -1,0 +1,62 @@
+planning_scene_monitor_options:
+  name: "planning_scene_monitor"
+  robot_description: "robot_description"
+  joint_state_topic: "/joint_states"
+  attached_collision_object_topic: "/moveit_cpp/planning_scene_monitor"
+  publish_planning_scene_topic: "/moveit_cpp/publish_planning_scene"
+  monitored_planning_scene_topic: "/moveit_cpp/monitored_planning_scene"
+  # start added 
+  #object_recognition_frame: map 
+  #map_frame: map
+  #fixed_frame: odom
+  wait_for_initial_state_timeout: 10.0
+
+planning_pipelines:
+  pipeline_names: ["ompl"]
+
+plan_request_params:
+  planning_pipeline: ompl
+  planner_id: RRTConnectkConfigDefault
+  max_velocity_scaling_factor: 0.5
+  max_acceleration_scaling_factor: 0.4
+  planning_time: 5.0
+  planning_attempts: 2
+
+ompl:
+  planning_plugin: ompl_interface/OMPLPlanner
+  planning_plugins:
+    - ompl_interface/OMPLPlanner
+
+  request_adapters:
+    - default_planning_request_adapters/ResolveConstraintFrames
+    - default_planning_request_adapters/ValidateWorkspaceBounds
+    - default_planning_request_adapters/CheckStartStateBounds
+    - default_planning_request_adapters/CheckStartStateCollision
+  response_adapters:
+    - default_planning_response_adapters/AddTimeOptimalParameterization
+    - default_planning_response_adapters/ValidateSolution
+    - default_planning_response_adapters/DisplayMotionPath
+  planner_configs:
+    RRTstarkConfigDefault:
+      type: geometric::RRTstar
+      range: 0.2
+      goal_bias: 0.05
+      delay_collision_checking: 1
+
+    RRTConnectkConfigDefault:
+      type: geometric::RRTConnect
+      range: 0.2
+  arm:
+    planner_configs:
+      - RRTstarkConfigDefault
+      - RRTConnectkConfigDefault
+
+    projection_evaluator: joints(arm_joint1,arm_joint2)
+    longest_valid_segment_fraction: 0.005
+
+  ee_group:
+    planner_configs:
+      - RRTstarkConfigDefault
+      - RRTConnectkConfigDefault
+    projection_evaluator: joints(ee_actuated_tooth_joint)
+    longest_valid_segment_fraction: 0.005

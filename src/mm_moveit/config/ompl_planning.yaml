@@ -1,0 +1,38 @@
+ompl:
+  planning_plugins:
+    - ompl_interface/OMPLPlanner
+  request_adapters:
+    - default_planning_request_adapters/FixWorkspaceBounds
+    - default_planning_request_adapters/FixStartStateBounds
+    - default_planning_request_adapters/FixStartStateCollision
+    - default_planning_request_adapters/FixStartStatePathConstraints
+    - default_planning_request_adapters/IterationParabolicTimeParameterization
+  #response_adapters:
+  #  - default_planning_response_adapters/DisplayPlannedPath
+  response_adapters:
+    - default_planning_request_adapters/AddRuckigTrajectorySmoothing
+    - default_planning_request_adapters/AddTimeOptimalParameterization
+    - default_planning_response_adapters/DisplayPlannedPath
+
+  # 1. Define algorithms available to your specific planning group
+  arm:
+    planner_configs:
+      - RRTConnectkConfigDefault
+      - RRTstarkConfigDefault
+      - PRMkConfigDefault
+    projection_evaluator: joints(0),joints(1) # Uses first two joints for state projection
+    longest_valid_segment_fraction: 0.005     # Collision checking resolution
+
+  # 2. Configure global parameter sets for each algorithm
+  planner_configs:
+    RRTConnectkConfigDefault:
+      type: geometric::RRTConnect
+      range: 0.2 # Max step size; 0.0 relies on OMPL defaults
+    RRTstarkConfigDefault:
+      type: geometric::RRTstar
+      range: 0.2
+      goal_bias: 0.05
+      delay_collision_checking: 1
+    PRMkConfigDefault:
+      type: geometric::PRM
+      max_nearest_neighbors: 10

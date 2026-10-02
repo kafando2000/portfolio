@@ -1,0 +1,11 @@
+# goal 
+int32 goal_value
+
+# response
+---
+int32 result_value
+
+
+# feedback
+---
+int32 progress
