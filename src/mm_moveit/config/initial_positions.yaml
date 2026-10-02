@@ -1,8 +1,0 @@
-# Default initial positions for WSTTA_ROBOT's ros2_control fake system
-initial_positions:
-  arm_joint1: 0.000000
-  arm_joint2: 0.000000
-  arm_joint3: 0.000000
-  arm_joint4: 0.000000
-  ee_actuated_tooth_joint: 0.000000
-  ee_unactuated_tooth_joint: 0.000000
